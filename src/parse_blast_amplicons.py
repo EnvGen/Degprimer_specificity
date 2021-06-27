@@ -6,25 +6,19 @@ import re
 
 usage = 'parse_blast_amplicons.py -i -p -r -d -l -M -m -o -a -k'
 description = 'This program prints the predicted amplicons from primers'
-#args.inf =  Results/BlastnEv_evalue15_strandboth_taskblastn_word_size11_max_target_seqs1000/FwL201_Rv570vsVibrioNtdb.blastn
-#args.p = Primer/FwL201_Rv570.fasta
 
 parser = argparse.ArgumentParser(description=description, usage=usage)
 parser.add_argument(
     '-i',
     dest='inf',
-    help='input file .blastn',
-    default="/root/primer_specificity//08_Results_best_BACTERIA/BlastnEv_evalue20_strandboth_taskblastn_word_size11_max_target_seqs1000/Primer_116_at_326_Primer_321_at_1170vsNtdb.blastn")
-# required=True)
+    help='input file .blastn', required=True)
 parser.add_argument('-p', dest='p', help='primers fasta file',
-                    default="/root/primer_specificity/Primer/Primer_116_at_326_Primer_321_at_1170.fasta")
-# required=True)
+                    required=True)
 parser.add_argument(
     '-c',
     dest='c',
     help='Input fasta (non-interleave) file, complete sequences ',
-    default="/root/primer_specificity/representative_bacteria_complete_genomes.fasta")
-# required=True)
+    required=True)
 parser.add_argument(
     '-d', dest='d', help='identity threshold default 100', default=100)
 parser.add_argument(
@@ -39,14 +33,14 @@ parser.add_argument(
     help='Max amplicon length default 1000',
     default=1000)
 parser.add_argument('-o', dest='o', help='output file, hits',
-                    default="TEST.txt")
+                    required=True)
 parser.add_argument('-a', dest='a', help='output file .fna, amplicons',
-                    default="TEST.fna")
+                    required=True)
 parser.add_argument(
     '-k',
     dest='k',
     help='prefix output file .tsv, krona',
-    default='TEST')
+    required=True)
 
 args = parser.parse_args()
 

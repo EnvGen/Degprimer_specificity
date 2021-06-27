@@ -168,6 +168,3 @@ print(
 print("       Total number of genus: {} - species :{} - strains: {}".format(to_genus,
                                                                             to_spp, genome_counter_slc))
 
-
-#python src/parse_blast.py -i 01_TEST_VIbrio/BlastnEv_evalue20_strandboth_taskblastn_word_size11_max_target_seqs1000/Primer_9_at_45_Primer_307_at_801vsNtdb.blastn -o TEST -n GroEL_98 -f ATGCTDGARGGBGTNAA -r ACYTTHACDATRCCRCG -F Primer_9_at_45 -R Primer_307_at_801
-#-n GroEL_125-f Primer_18_at_95 -F YCCNAAAGGHCGYAAYG -r Primer_179_at_567 -R CRAAYTGCATVCCYTCNAC

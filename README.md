@@ -1,4 +1,4 @@
-The pipeline evaluates the specificity of degenerated primers -- So fa, analyse only genes from Vibrio genus, and support NCBI files
+The pipeline evaluates the specificity of degenerated primers -- Designed for genes from Vibrio genus, and support NCBI files
 
 ## Installation ##
 Dowload the pipeline using the command:

@@ -1,0 +1,18 @@
+{
+  "workdir": "/root/primer_specificity",
+  "dir_database": "/root/Vibrio_BLAST/Vibrio_Complete_genomes/",
+  "database": "/root/primer_specificity/refseq_vibrio_complete_genomes.fasta",
+  "output_dir_name": "01_TEST_Vibrio",
+  "threads":12,
+  "blast_output_option":"-outfmt 7",
+  "blast_params": "-evalue 20 -strand 'both' -task 'blastn' -word_size 11 -max_target_seqs 1000",
+  "identity":"99",
+  "Query_cov": "99",
+  "Max_ampl_size": "1100",
+  "min_ampl_size": "200",
+  "min_idt_species": 48,
+  "min_idt_strains": 153,
+  "max_idt_genis": 50,
+  "target": "Vibrio",
+  "primer_list_file": "/root/primer_specificity/List_of_primers.txt"
+}

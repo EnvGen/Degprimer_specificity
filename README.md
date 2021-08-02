@@ -29,7 +29,7 @@ and modify the parameters and save changes by taping `ctrl x` and tape `y`:
     "dir_database": "/abs/path/to/Complete_genomes/", --Directory containing the NCBI genomes, no required if database file provided --
     "database": "/abs/path/to/complete_genomes.fasta", -- name required. if file not provided, it will be generated using dir_database -- 
     "output_dir_name": "your option",  -- required --
-     "threads":12, -- used during blastn ---
+    "threads":12, -- used during blastn ---
     "blast_output_option":"-outfmt 7", 
      "blast_params": "-evalue 20 -strand 'both' -task 'blastn' -word_size 11 -max_target_seqs 1000",
     "identity":"99",  -- The percent identity describes how similar the primer sequence is to the NCBI hit --
@@ -38,6 +38,6 @@ and modify the parameters and save changes by taping `ctrl x` and tape `y`:
     "min_ampl_size": "200",
     "min_idt_species": 48, -- Used when selecting primers. Minimum number of species with unique amplicon that can be identified --
     "min_idt_strains": 153, -- Used when selecting primers. Minimum number of strains with unique amplicon that can be identified --
-    "max_idt_genis": 50, -- Used when selecting primers. Maximum number of non Vibrio genus from which amplicons are generated --
-     "target": "Vibrio", --  "Vibrio" when using Vibrio Database, "Bacteria" when using Representative Bacteria database --
+    "max_idt_genus": 50, -- Used when selecting primers. Maximum number of non Vibrio genus from which amplicons are generated --
+    "target": "Vibrio", --  "Vibrio" when using Vibrio Database, "Bacteria" when using Representative Bacteria database --
     "primer_list_file": "/abs/path/to/List_of_primers.txt" -- List of primers to be analysed --

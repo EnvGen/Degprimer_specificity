@@ -26,8 +26,8 @@ set pipeline parameters in primers_config.json using the command:
 and modify the parameters and save changes by taping `ctrl x` and tape `y`:
 
     "workdir": "/abs/path/to/degprimer_specificity",
-    "dir_database": "/abs/path/to/Vibrio_Complete_genomes/", --Directory containing the NCBI genomes, no required if database file provided --
-    "database": "/abs/path/to/vibrio_complete_genomes.fasta", -- name required. if file not provided, it will be generated using dir_database -- 
+    "dir_database": "/abs/path/to/Complete_genomes/", --Directory containing the NCBI genomes, no required if database file provided --
+    "database": "/abs/path/to/complete_genomes.fasta", -- name required. if file not provided, it will be generated using dir_database -- 
     "output_dir_name": "your option",  -- required --
      "threads":12, -- used during blastn ---
     "blast_output_option":"-outfmt 7", 

@@ -2,10 +2,10 @@
 
 import os
 import argparse
-#import NumPy as np
 
 
-usage = 'undegenerator.py -f fwd -F fwdname -r rev -R revname'
+
+usage = 'undegenerator.py -f fwd -F fwdname -r rev -R revname -o output_dir'
 description = 'This program creates a list of primers from degenerated primers'
 
 parser = argparse.ArgumentParser(description=description, usage=usage)
@@ -69,36 +69,40 @@ def undegenerating(primer):
 
     return primers, total_deg
 
-def printing_out_undegerated_primers(primers, total_deg, namep, type, file_out_name):
-    # unique_list=[]
+def printing_out_undegerated_primers(primers, total_deg, namep, type, file_out_name, print_opt):
+    
     with open(os.path.join(args.o, file_out_name + ".fasta"), "a") as fboth:
         for k in primers.keys():
             print(">primer_{}_{}_{}\n{}".format(k, namep, type, "".join(primers[k])), file=fboth)
-    print("        total number of unique sequences from {} {}: {}".format(
-            namep,
-            type,
-            total_deg))
+
+    if print_opt:
+        print("        total number of unique sequences from {} {}: {}".format(
+                namep,
+                type,
+                total_deg))
 
 
 if not os.path.exists(args.o):
     os.makedirs(args.o)
 
-if args.outf and args.outr:
-    file_out_name = args.outf + "_" + args.outr
-elif (args.pf and args.outf):
-    file_out_name = args.outf + "forward"
-elif (args.pr and args.outr):
-    file_out_name = args.outr + "reverse"
-
-
 if (args.pf and args.outf):
     primers, total_deg =undegenerating(args.pf)
-    printing_out_undegerated_primers(primers, total_deg, args.outf, "forward", file_out_name)
+    file_out_name = args.outf + "forward"
+    printing_out_undegerated_primers(primers, total_deg, args.outf, "forward", file_out_name, print_opt=True)
+    if (args.outf and args.outr) and (args.pf and args.pr):
+        file_out_name = args.outf + "_" + args.outr
+        printing_out_undegerated_primers(primers, total_deg, args.outf, "forward", file_out_name, print_opt=False)
+
 else:
     print("Forward primer information no provided")
 
 if (args.pr and args.outr):
     primers, total_deg = undegenerating(args.pr)
-    printing_out_undegerated_primers(primers, total_deg, args.outr, "reverse", file_out_name)
+    file_out_name = args.outr + "reverse"
+    printing_out_undegerated_primers(primers, total_deg, args.outr, "reverse", file_out_name, print_opt=True)
+    if (args.outf and args.outr) and (args.pf and args.pr):
+        file_out_name = args.outf + "_" + args.outr
+        printing_out_undegerated_primers(primers, total_deg, args.outr, "reverse", file_out_name, print_opt=False)
+
 else:
     print("Reverse primer information no provided")

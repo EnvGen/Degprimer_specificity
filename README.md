@@ -40,6 +40,6 @@ and modify the parameters and save changes by taping `ctrl x` and tape `y`:
     "min_idt_strains": 153, -- Used when selecting primers. Minimum number of strains with unique amplicon that can be identified --
     "max_idt_genus": 50, -- Used when selecting primers. Maximum number of non targeted-genus from which amplicons are generated --
     "selected_genus": "your option" -- targeted genus, e.g., "Vibrio". It must start with a capital letter. Parameter required --
-    "list_of_selected_spps": "your options" --List of specific species you want to checkout , e.g., "cholerae,vulnificus,parahaemolyticus,alginolyticus,sp"--
+    "list_of_selected_spps": "your options" --List of specific species you want to checkout , e.g., "cholerae,vulnificus,parahaemolyticus,alginolyticus,sp". It requires at least two spp--
     "target": "your option", -- level at which you want to check the primer specificity in the database. If you want to check only on the selected genus, type the genus name used in "selected_genus" (e.g., "Vibrio"). If you want to check on other genus, type "all" --
     "primer_list_file": "/abs/path/to/List_of_primers.txt" -- List of primers to be analysed --

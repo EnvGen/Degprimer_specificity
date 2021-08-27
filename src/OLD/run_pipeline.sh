@@ -54,12 +54,13 @@ if [ ! -d "$wkd/blast_db/$blast_dbname" ] || [ -z "$(ls -A $wkd/blast_db/$blast_
        makeblastdb -in "$databasefasta" -out "$wkd"/blast_db/"$blast_dbname"/Ntdb -dbtype nucl
 fi
 
+
   mkdir -p $wkd/$output_dir_name/$params_dir
 
+  echo -e '# Target\tForward\tReverse\tBlast ('$bp')\tBlast (% identity > '$identity', % Query coverage > '$Query_cov')' > $wkd/"Summary_table"
   echo "# Primer specificity analysis" > $wkd/$output_dir_name/$params_dir/Summary.txt
 
 fi
-
 
 cat $primer_list_file | sed  "s/ \+/ /g" | while read line; do
 if [ $(echo "$line" | grep "#" | wc -l) == 0 ] && [ $(echo "$line" | wc -l) != 0 ]; then
@@ -70,6 +71,7 @@ if [ $(echo "$line" | grep "#" | wc -l) == 0 ] && [ $(echo "$line" | wc -l) != 0
       seqsr=$( echo "$line" | cut -d " " -f5 )
 
       if [ "$1" == "unlock" ]; then
+#        echo "INFO: Primer specificity analysis - Target gene: $id - forward primer: $namef $seqsf - reverse primer: $namer $seqsr"
         snakemake -s support_files/Primers_snakefile --config primer=$id seqf=$seqsf namef=$namef seqr=$seqsr namer=$namer --unlock
       else
 
@@ -81,11 +83,12 @@ if [ $(echo "$line" | grep "#" | wc -l) == 0 ] && [ $(echo "$line" | wc -l) != 0
 fi
 done
 
-#fi
-
-
 if [ "$1" != "unlock" ]; then
+  mv $wkd/"Summary_table" $wkd/$output_dir_name/$params_dir/"Summary_table"
+#  snakemake -s support_files/Primers_snakefile list --cores $threads --config primer=$id seqf=$seqsf namef=$namef seqr=$seqsr namer=$namer
+#  if [ ! -s $wkd/$output_dir_name/$params_dir/BEST_primers_list.txt ]; then
     echo "Printing out the best primers list: $wkd/$output_dir_name/$params_dir/BEST_primers_list.txt"
-    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genus -n $selected_genus
+    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genis
+#  fi
 fi
 rm tempo

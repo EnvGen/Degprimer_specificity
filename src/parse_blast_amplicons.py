@@ -4,10 +4,8 @@ import os
 import argparse
 import re
 
-usage = 'parse_blast_amplicons.py -i -p -r -d -l -M -m -o -a -k'
+usage = 'parse_blast_amplicons.py -i -p -r -d -l -M -m -o -a -k -g -s'
 description = 'This program prints the predicted amplicons from primers'
-#args.inf =  Results/BlastnEv_evalue15_strandboth_taskblastn_word_size11_max_target_seqs1000/FwL201_Rv570vsVibrioNtdb.blastn
-#args.p = Primer/FwL201_Rv570.fasta
 
 parser = argparse.ArgumentParser(description=description, usage=usage)
 parser.add_argument(
@@ -47,6 +45,18 @@ parser.add_argument(
     dest='k',
     help='prefix output file .tsv, krona',
     default='TEST')
+
+parser.add_argument(
+    '-g',
+    dest='g',
+    help='name of selected genus',
+    default="Vibrio")
+
+parser.add_argument(
+    '-s',
+    dest='s',
+    help='List of selected species',
+    default="cholerae,vulnificus,parahaemolyticus,alginolyticus,sp")
 
 args = parser.parse_args()
 
@@ -152,7 +162,8 @@ def from_to(primer1,primer2):
     return fro, to, direct
 
 
-def analyse_and_print_out_hits(file, hits):
+def analyse_and_print_out_hits(file, hits, selected_genus):
+
     Gs_sps = {}
     strns = set()
     alg = []
@@ -174,7 +185,7 @@ def analyse_and_print_out_hits(file, hits):
                                 sps = i.split("_")[1]  # parahaemolyticus
                                 strs = "_".join(i.split("_")[2:]) # strain_FDAARGOS_667
                                 Gs_sps=update_dict(gns,sps,strs,Gs_sps)
-                                if gns == "Vibrio":
+                                if gns == selected_genus:
                                     t_amplicons += 1
                                     strns.add(i)
                                     alg.append(amplicon_length)
@@ -187,51 +198,26 @@ def analyse_and_print_out_hits(file, hits):
                                 print("*** Strain: {} - Loci: {}".format(i, l), file=fout)
                                 print("forward {} - reverse {} - amplicon length {} - direction {} - start {} - stop {}".format(q, w, amplicon_length, direction, sta, sto), file=fout)
         if len(alg) > 0:
-            print("#            From genus Vibrio: Total amplicons {} - species {} - strains {}".format(t_amplicons, len(Gs_sps["Vibrio"].keys()), len(strns)), file=fout)
+            print("#            From genus {}: Total amplicons {} - species {} - strains {}".format(selected_genus, t_amplicons, len(Gs_sps["Vibrio"].keys()), len(strns)), file=fout)
             print("#                Avg amplicon size {} Max {} Min {}".format(round(sum(alg) / len(alg), 1), max(alg), min(alg)), file=fout)
         else:
-            print("#            From genus Vibrio: Total amplicons {} - species {} - strains {}".format(t_amplicons, 0, 0), file=fout)
+            print("#            From genus {}: Total amplicons {} - species {} - strains {}".format(selected_genus, t_amplicons, 0, 0), file=fout)
 
     return alg, t_amplicons, Gs_sps, strns, slctd_hits
 
-def stdout_selected_genus_results(total_sp_identyf_strn, total_sp_identyf_sp, genus_selected):
+def stdout_selected_genus_results(total_sp_identyf_strn, total_sp_identyf_sp, genus_selected, selected_genus, selected_sps):
     print(
-        "#                From genus Vibrio: Total number of strains 100% identifiable: {} strains from {} species".format(
+        "#                From genus {}: Total number of strains 100% identifiable: {} strains from {} species".format(selected_genus,
             len(total_sp_identyf_strn),
             len(total_sp_identyf_sp)))
     print("#                    particularly,")
-    if "cholerae" in genus_selected["Vibrio"].keys():
-        print("#                                Cholerae {} strains".format(
-            len(genus_selected["Vibrio"]["cholerae"].keys())))
-    else:
-        print("#                                Cholerae 0 strain")
-
-    if "vulnificus" in genus_selected["Vibrio"].keys():
-        print("#                                vulnificus {} strains".format(
-            len(genus_selected["Vibrio"]["vulnificus"].keys())))
-    else:
-        print("#                                vulnificus 0 strain")
-
-    if "parahaemolyticus" in genus_selected["Vibrio"].keys():
-        print("#                                parahaemolyticus {} strains".format(
-            len(genus_selected["Vibrio"]["parahaemolyticus"].keys())))
-    else:
-        print("#                                parahaemolyticus 0 strain")
-
-    if "alginolyticus" in genus_selected["Vibrio"].keys():
-        print("#                                alginolyticus {} strains".format(
-            len(genus_selected["Vibrio"]["alginolyticus"].keys())))
-    else:
-        print("#                                alginolyticus 0 strain")
-
-    if "sp" in genus_selected["Vibrio"].keys():
-        print("#                                sp {} strains".format(
-            len(genus_selected["Vibrio"]["sp"].keys())))
-    else:
-        print("#                                sp 0 strain")
-
-    print("Identifiable Vibrio strains: {}".format(
-        ",".join(total_sp_identyf_strn)))
+    for spe in selected_sps:
+        if spe in genus_selected[selected_genus].keys():
+            print("#                                {} {} strains".format(spe,
+                len(genus_selected[selected_genus][spe].keys())))
+        else:
+            print("#                                {} 0 strain".format(spe))
+    print("Identifiable {} strains: {}".format(selected_genus,",".join(total_sp_identyf_strn)))
 
 
 def update_seqs_uniq(hdr, toprint, uniq):
@@ -246,7 +232,7 @@ def update_seqs_uniq(hdr, toprint, uniq):
 
     return uniq
 
-def extract_records(identifiable_strains):
+def extract_records(identifiable_strains, selected_genus):
     Genus_id = {}
     total_identyf_sp = set()
     total_identyf_strn = set()
@@ -254,7 +240,7 @@ def extract_records(identifiable_strains):
         gens = sro.split("_")[0]
         spes = sro.split("_")[1]
         strais = "_".join(sro.split("_")[2:])
-        if gens == "Vibrio":
+        if gens == selected_genus:
             total_identyf_sp.add(spes)
             total_identyf_strn.add(gens + "_" + spes + "_" + strais)
 
@@ -263,12 +249,13 @@ def extract_records(identifiable_strains):
     return Genus_id, total_identyf_sp, total_identyf_strn
 
 
-def print_out_counters(genus,fileout):
+def print_out_counters(genus,fileout, selected_genus):
+
     cont_g = 0
     cont_sp = 0
     cont_str = 0
     for gn in genus:
-        if gn != "Vibrio":
+        if gn != selected_genus:
             cont_g += 1
             for sp in genus[gn]:
                 cont_sp += 1
@@ -285,13 +272,13 @@ def print_out_counters(genus,fileout):
 
 primers_seq=get_primer_seqs(args.p)
 id_hit=get_selected_hits(args.inf,primers_seq)
-al, total_amplicons, G_species, strains, selected_hits= analyse_and_print_out_hits(args.o, id_hit)
+al, total_amplicons, G_species, strains, selected_hits= analyse_and_print_out_hits(args.o, id_hit, args.g)
 
 if len(al) > 0:
     print(
-        "#                From genus Vibrio: Total amplicons {} - species {} - strains {}".format(
+        "#                From genus {}: Total amplicons {} - species {} - strains {}".format(args.g,
             total_amplicons, len(
-                G_species["Vibrio"].keys()), len(strains)))
+                G_species[args.g].keys()), len(strains)))
     print("#                    Avg amplicon size {} Max {} Min {}".format(
         round(sum(al) / len(al), 1), max(al), min(al)))
 
@@ -340,30 +327,30 @@ with open(args.c, "r") as fc, open(args.a, "w") as fam, open(args.k + "_all_ampl
             if len(names) == 1:
                 identifiable_strain.add(names[0])
 
-        Genus, total_vibrio_identyf_sp, total_vibrio_identyf_strn=extract_records(identifiable_strain)
+        Genus, total_vibrio_identyf_sp, total_vibrio_identyf_strn=extract_records(identifiable_strain, args.g)
 
-        if "Vibrio" in Genus.keys():
-            stdout_selected_genus_results(total_vibrio_identyf_strn, total_vibrio_identyf_sp, Genus)
+        if args.g in Genus.keys():
+            stdout_selected_genus_results(total_vibrio_identyf_strn, total_vibrio_identyf_sp, Genus, args.g, args.s.split(","))
 
         print("         -------------------------------------")
-        conta_g, conta_sp, conta_str=print_out_counters(Genus,fku)
+        conta_g, conta_sp, conta_str=print_out_counters(Genus,fku, args.g)
 
         print(
-            "# 100% identifiable amplicons that are not Vibrio: Genus {} Spp {} strains {}".format(
+            "# 100% identifiable amplicons that are not {}: Genus {} Spp {} strains {}".format(args.g,
                 conta_g,
                 conta_sp,
                 conta_str))
 
-        contador_g, contador_sp, contador_str=print_out_counters(G_species,fk)
+        contador_g, contador_sp, contador_str=print_out_counters(G_species,fk, args.g)
 
         print(
-            "# Number of amplicons that are not Vibrio: Genus {} Spp {} strains {}".format(
+            "# Number of amplicons that are not {}: Genus {} Spp {} strains {}".format(args.g,
                 contador_g,
                 contador_sp,
                 contador_str))
         if contador_g > 0:
-            print("    where, genus (exluding Vibrio) are: {}".format(
-                ",".join([g for g in G_species.keys() if g != "Vibrio"])))
+            print("    where, genus (exluding {}) are: {}".format(args.g,
+                ",".join([g for g in G_species.keys() if g != args.g])))
 
         print("         -------------------------------------")
 

@@ -3,7 +3,7 @@
 import os
 import argparse
 
-usage = 'python parse_Summary.py -i -o -s -t -d -g -n'
+usage = 'parse_Summary.py -i -o -s -t -d -g'
 description = 'This program selects primers according to amplicon characteristics'
 
 parser = argparse.ArgumentParser(description=description, usage=usage)
@@ -19,9 +19,6 @@ parser.add_argument(
     '-g', dest='g', help='maximum number of identifiable Genus', default=50)
 parser.add_argument(
     '-d', dest='d', help='Vibrio,Bacteria', required=True)
-parser.add_argument(
-    '-n', dest='n', help='selected genus', default="Vibrio")
-
 args = parser.parse_args()
 
 
@@ -39,9 +36,8 @@ with open(args.i, "r") as fin, open(args.o, "w") as fout, open(file_list, "w") a
             header = line
             toprint = [line.split()[i] for i in [2, 6, 7, 11, 12]]
 
-        if args.d == args.n:
-            str="From genus "+args.n+": Total number of strains"
-            if str in line:
+        if args.d == "Vibrio":
+            if "From genus Vibrio: Total number of strains" in line:
                 # From genus Vibrio: Total number of strains 100% identifiable:
                 # 109 strains from 47 species
                 hits = line.split(":")[2]
@@ -53,8 +49,7 @@ with open(args.i, "r") as fin, open(args.o, "w") as fout, open(file_list, "w") a
                     print(" ".join(toprint), file=flist)
 
         if args.d == "Bacteria":
-            str2="Number of amplicons that are not "+args.n
-            if str2 in line:
+            if "Number of amplicons that are not Vibrio" in line:
                     # Number of amplicons that are not Vibrio: Genus 303 Spp
                     # 690 strains 691
                 hits = line.split(":")[1]

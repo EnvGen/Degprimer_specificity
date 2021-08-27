@@ -60,7 +60,6 @@ fi
 
 fi
 
-
 cat $primer_list_file | sed  "s/ \+/ /g" | while read line; do
 if [ $(echo "$line" | grep "#" | wc -l) == 0 ] && [ $(echo "$line" | wc -l) != 0 ]; then
       id=$( echo "$line" | cut -d " " -f1 )
@@ -81,11 +80,8 @@ if [ $(echo "$line" | grep "#" | wc -l) == 0 ] && [ $(echo "$line" | wc -l) != 0
 fi
 done
 
-#fi
-
-
 if [ "$1" != "unlock" ]; then
     echo "Printing out the best primers list: $wkd/$output_dir_name/$params_dir/BEST_primers_list.txt"
-    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genus -n $selected_genus
+    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genis
 fi
 rm tempo

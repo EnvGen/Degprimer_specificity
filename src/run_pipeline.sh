@@ -33,26 +33,26 @@ if [ "$1" != "unlock" ]; then
 
   fi
 # make sure the fatsa file is non interleaved
-check_interleaved=$(head -3 $databasefasta | grep -c ">")
-if [ "$check_interleaved" -ne 2 ]; then
+  check_interleaved=$(head -3 $databasefasta | grep -c ">")
+  if [ "$check_interleaved" -ne 2 ]; then
         echo "INFO: Converting $databasefasta file to non-interleaved"
         awk '{if(NR==1) {print $0} else {if($0 ~ /^>/) {print "\n"$0} else {printf $0}}}' $databasefasta > $wkd/"tmpDB_noninerleaved"
         mv $wkd/"tmpDB_noninerleaved" $databasefasta
 
-else
+  else
         echo "INFO: $databasefasta file is non-interleaved"
 
-fi
+  fi
 
 ### Creating blast_db
-s=$(basename $database)
-blast_dbname="${s%.*}"
+  s=$(basename $database)
+  blast_dbname="${s%.*}"
 
-if [ ! -d "$wkd/blast_db/$blast_dbname" ] || [ -z "$(ls -A $wkd/blast_db/$blast_dbname/)" ]; then
+  if [ ! -d "$wkd/blast_db/$blast_dbname" ] || [ -z "$(ls -A $wkd/blast_db/$blast_dbname/)" ]; then
       echo "INFO: Creating blast dababase from $s"
        mkdir -p $wkd/blast_db/$blast_dbname
        makeblastdb -in "$databasefasta" -out "$wkd"/blast_db/"$blast_dbname"/Ntdb -dbtype nucl
-fi
+  fi
 
   mkdir -p $wkd/$output_dir_name/$params_dir
 
@@ -81,11 +81,10 @@ if [ $(echo "$line" | grep "#" | wc -l) == 0 ] && [ $(echo "$line" | wc -l) != 0
 fi
 done
 
-#fi
-
 
 if [ "$1" != "unlock" ]; then
     echo "Printing out the best primers list: $wkd/$output_dir_name/$params_dir/BEST_primers_list.txt"
     python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genus -n $selected_genus
+
 fi
 rm tempo

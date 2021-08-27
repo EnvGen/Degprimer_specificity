@@ -38,8 +38,8 @@ and modify the parameters and save changes by taping `ctrl x` and tape `y`:
     "min_ampl_size": "200",
     "min_idt_species": 48, -- Used when selecting primers. Minimum number of species with unique amplicon that can be identified --
     "min_idt_strains": 153, -- Used when selecting primers. Minimum number of strains with unique amplicon that can be identified --
-    "max_idt_genus": 50, -- Used when selecting primers. Maximum number of non Vibrio genus from which amplicons are generated --
+    "max_idt_genus": 50, -- Used when selecting primers. Maximum number of non targeted-genus from which amplicons are generated --
     "selected_genus": "your option" -- targeted genus, e.g., "Vibrio" --
-    "list_of_selected_spps": "your options" --List of specifique species you want to count, e.g., "cholerae,vulnificus,parahaemolyticus,alginolyticus,sp"--
+    "list_of_selected_spps": "your options" --List of specific species you want to checkout , e.g., "cholerae,vulnificus,parahaemolyticus,alginolyticus,sp"--
     "target": "Vibrio", --  "Vibrio" when using Vibrio Database, "Bacteria" when using Representative Bacteria database --
     "primer_list_file": "/abs/path/to/List_of_primers.txt" -- List of primers to be analysed --

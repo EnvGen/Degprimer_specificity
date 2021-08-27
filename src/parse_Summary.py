@@ -52,7 +52,7 @@ with open(args.i, "r") as fin, open(args.o, "w") as fout, open(file_list, "w") a
                     print(header, "\n", line[1:], file=fout)
                     print(" ".join(toprint), file=flist)
 
-        if args.d == "Bacteria":
+        else:
             str2="Number of amplicons that are not "+args.n
             if str2 in line:
                     # Number of amplicons that are not Vibrio: Genus 303 Spp

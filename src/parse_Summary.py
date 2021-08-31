@@ -42,8 +42,6 @@ def checking_copy1(linea):
 def checking_copy2(lin):
     copia2 = True
     copia = True
-#    list_exclu=args.x.split(",")
-#    if len(list_exclu) > 0 and list_exclu[0] != "" :
     list_exclu=[l.capitalize() for l in args.x.split(",") if l != ""]
     if len(list_exclu) > 0 :
         exclu=lin.split(":")[1]
@@ -57,7 +55,7 @@ def checking_copy2(lin):
 
 def print_out(h,l,f1,f2, tp):
     if "---" in l:
-        text= "*** 100% specific"
+        text= "*** full specificity"
     else:
         text= l[1:]
     print(h, "\n", text, file=f1)
@@ -91,9 +89,11 @@ with open(args.i, "r") as fin, open(args.o, "w") as fout, open(file_list, "w") a
                 copy=False
 
         else:
+
             str2="Number of amplicons that are not "+args.n.capitalize()
             strin="where, genus (exluding"
             str3=" -------------------------------------"
+
             if str2 in line:
                     # Number of amplicons that are not Vibrio: Genus 303 Spp
                     # 690 strains 691
@@ -104,7 +104,7 @@ with open(args.i, "r") as fin, open(args.o, "w") as fout, open(file_list, "w") a
                     copy = True
             if copy and (str3 in line):
                 copy2=True
-            if copy and (strin in line): #aca hay que  cambiarlo
+            if copy and (strin in line):
                 copy, copy2=checking_copy2(line)
             if copy and copy2:
                 copy, copy2=print_out(header, line, fout, flist, toprint)

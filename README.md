@@ -45,3 +45,9 @@ and modify the parameters and save changes by taping `ctrl x` and tape `y`:
     "list_of_excl_genus": "your list", -- List of genus from which primers must not generate amplicons, e.g., "Aliivibrio" --
     "target": "your option", -- level at which you want to check the primer specificity in the target database. If you want to check only on the selected genus type the genus name used in "selected_genus" (e.g., "Vibrio"). If you want to check on other genus, type "all" --
     "primer_list_file": "/abs/path/to/List_of_primers.txt" -- List of primers to be analysed --
+    
+    
+Activate environment and run the pipeline using the command:
+
+    conda activate primers
+    bash src/run_pipeline.sh

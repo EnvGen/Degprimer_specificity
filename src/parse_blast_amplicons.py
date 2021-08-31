@@ -24,13 +24,13 @@ parser.add_argument(
 parser.add_argument(
     '-l',
     dest='l',
-    help='percentage query coverage threshold default 100',
+    help='percentage query coverage threshold (default 100)',
     default=100)
-parser.add_argument('-m', dest='m', help='min amplicon length', default=50)
+parser.add_argument('-m', dest='m', help='min amplicon length (default 50)', default=50)
 parser.add_argument(
     '-M',
     dest='M',
-    help='Max amplicon length default 1000',
+    help='Max amplicon length (default 1000)',
     default=1000)
 parser.add_argument('-o', dest='o', help='output file, hits',
                     required=True)
@@ -45,7 +45,7 @@ parser.add_argument(
 parser.add_argument(
     '-g',
     dest='g',
-    help='name of selected genus',
+    help='name of selected genus (default Vibrio)',
     default="Vibrio")
 
 parser.add_argument(
@@ -206,13 +206,14 @@ def stdout_selected_genus_results(total_sp_identyf_strn, total_sp_identyf_sp, ge
         "#                From genus {}: Total number of strains 100% identifiable: {} strains from {} species".format(selected_genus,
             len(total_sp_identyf_strn),
             len(total_sp_identyf_sp)))
-    print("#                    particularly,")
-    for spe in selected_sps:
-        if spe in genus_selected[selected_genus].keys():
-            print("#                                {} {} strains".format(spe,
-                len(genus_selected[selected_genus][spe].keys())))
-        else:
-            print("#                                {} 0 strain".format(spe))
+    if selected_sps[0] != "" :
+        print("#                    particularly,")
+        for spe in selected_sps:
+            if spe in genus_selected[selected_genus].keys():
+                print("#                                {} {} strains".format(spe,
+                    len(genus_selected[selected_genus][spe].keys())))
+            else:
+                print("#                                {} 0 strain".format(spe))
     print("Identifiable {} strains: {}".format(selected_genus,",".join(total_sp_identyf_strn)))
 
 

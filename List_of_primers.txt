@@ -1,2 +1,3 @@
 #Gene_target  Forward_primer_name  sequence reverse_primer_name  sequence
 16SrRNA_vibrio V169F GGATAACYATTGGAAACGATG V744R CATCTGAGTGTCAGTRTCTG
+GroEL_372 Primer_116_at_326 NGGYATGAAYCCDATGG Primer_321_at_1170 ACDCGRTCTTTYTTCTC

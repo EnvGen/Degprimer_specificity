@@ -19,6 +19,25 @@ cat $configFile | sed s/"[{|}]"//g | sed s/":"/"="/g | sed s/" "//g | sed s/",$"
 
 fi
 
+####
+#Checking key parameters setting
+if [[ "$workdir" != /* ]]; then
+    echo "Please provide an absoltute path to the working directory in configfile e.g., 'workdir': '/absolute/path/to/working_directory/' "
+    echo "Please double-check the absolute path to working directory $workdir and to configfile $configFile"
+    rm tempo
+    exit 1
+fi
+
+options=("$output_dir_name" "$selected_genus" "$target" "$primer_list_file")
+for o in "${options[@]}"; do if [ -z "$o" ]; then echo "A key parameter is undefined. Please check in the $configFile file the parameters used"; rm tempo; exit 1; fi; done
+
+if  [ -z "$dir_database" ] && [ -z "$database" ] ; then
+    echo "Please provide either the path to the directory containing the genomes.gz files or to the fasta file that includes all the genomes. Please check in the $configFile file the parameters used"; rm tempo; exit 1
+fi
+
+####
+
+
 if [ "$1" != "unlock" ]; then
   bp=$( echo $blast_params | sed s/'\-'/'_'/g | sed s/"'"//g | sed s/'_+'/'_'/g )
   params_dir=$( echo "id_"$identity"_QC_"$Query_cov | sed s'/,//g' )$bp
@@ -84,7 +103,7 @@ done
 
 if [ "$1" != "unlock" ]; then
     echo "Printing out the best primers list: $wkd/$output_dir_name/$params_dir/BEST_primers_list.txt"
-    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genus -n $selected_genus
-
+    if  [ -z "$list_of_excl_genus" ]; then list_of_excl_genus="''"; fi
+    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genus -n $selected_genus -x $list_of_excl_genus
 fi
 rm tempo

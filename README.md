@@ -16,7 +16,7 @@ The pipeline uses the programs:
 
 ## Create conda environment ##
 
-conda create -n primers -c bioconda snakemake=3.13.3 blastn=2.5.0 krona=2.7.1
+conda create -n primers -c bioconda snakemake=3.13.3 blast=2.5.0 krona=2.7.1
 
 ## Usage ##
 

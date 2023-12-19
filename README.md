@@ -56,39 +56,41 @@ Activate environment and run the pipeline using the command:
 # Output
 
 in <output_dir_name>:
-├── BlastnEv_evalue<your_option>_strandboth_taskblastn_word_size<your_option>_max_target_seqs<your_option> -- blast table results for each primers pair evaluated
-├── Spp_and_strains.txt -- list and number of Species/ strains present in the reference databse used to check the primer specificity
-├── amplicons - Directory containing the amplicons sequences genereated for each primers pair evaluated
-├── id_<your_option>_QC_<your_option>_evalue<your_option>_strandboth_taskblastn_word_size<your_option>_max_target_seqs<your_option>
-     ├── SPECIAL_primers -- List of primers passing the selection filters
-     ├── SPECIAL_primers_list.txt -- List of primers passing the selection filters in a type List_of_primers.txt format  
-     ├── Summary.txt -- Log file containing key information. Example of output:
 
-            # Primer specificity analysis
-            #Target gene: wzc_1 - forward primer: Primer_99_at_42 GACGAAATCGATTTRGGC - reverse primer: Primer_184_at_142 AGGYGTTGAAAGHAGYG
-                    total number of unique sequences from wzc_1_Primer_99_at_42 forward: 2  -- Primer degeneracy
-                    total number of unique sequences from wzc_1_Primer_184_at_142 reverse: 12 -- Primer degeneracy
-                   Total number of unique best hits: 415 -- Total blast hits before filtering by %identity and Query coverage
-                   Total number of genus: 35 species :44 - strains: 415 -- Total blast hit on the selected genus before filtering by %identity and Query coverage
-                   ---------
-                   Total number of unique hits above threshold (% identity >= 99 - % Query_cov >= 99): 413 -- Total blast hits after filtering by %identity and Query coverage, before evaluating if an amplicon can be created
-                   Total number of genus: 33 - species :42 - strains: 413 -- Total blast hit on the selected genus after filtering by %identity and Query coverage, before evaluating if an amplicon can be created
-            #                From genus Vibrio: Total amplicons 365 - species 1 - strains 353 -- Total number of amplicons generated from the selected genus
-            #                    Avg amplicon size 136.4 Max 736 Min 116
-            #                Total number of unique sequences (100% identity, same size): 15290 -- among all the amplicons generated
-            #                From genus Vibrio: Total number of strains 100% identifiable: 336 strains from 1 species -- Based on unique amplicons generated from the selected genus
-            #                    particularly,
-            #                                cholerae 0 strain
-            #                                vulnificus 336 strains
-            #                                parahaemolyticus 0 strain
-            #                                alginolyticus 0 strain
-            #                                sp 0 strain
-            Identifiable Vibrio strains: -- List of strains, based on unique amplicons generated from the selected genus
-            -------------------------------------
-            # 100% identifiable amplicons that are not Vibrio: Genus 0 Spp 0 strains 0 -- Based on unique amplicons generated from the other genra
-            # Number of amplicons that are not Vibrio: Genus 0 Spp 0 strains 0 -- Total number of amplicons generated from the other genra
-            -------------------------------------
 
-     ├── <primer_number>_<primers_pair>_hits -- Intermediare file, -- blast table results for each primers pair evaluated
-     ├── <primer_number>_<primers_pair>_hits_selected -- Blast table hits above  %identity and Query coverage threshold for each primers pair evaluated
-└── krona -- Directory containing Krona html files, of amplicon/hits for each primers pair evaluated
+                ├── BlastnEv_evalue<your_option>_strandboth_taskblastn_word_size<your_option>_max_target_seqs<your_option> -- blast table results for each primers pair evaluated
+                ├── Spp_and_strains.txt -- list and number of Species/ strains present in the reference databse used to check the primer specificity
+                ├── amplicons - Directory containing the amplicons sequences genereated for each primers pair evaluated
+                ├── id_<your_option>_QC_<your_option>_evalue<your_option>_strandboth_taskblastn_word_size<your_option>_max_target_seqs<your_option>
+                     ├── SPECIAL_primers -- List of primers passing the selection filters
+                     ├── SPECIAL_primers_list.txt -- List of primers passing the selection filters in a type List_of_primers.txt format  
+                     ├── Summary.txt -- Log file containing key information. Example of output:
+                
+                            # Primer specificity analysis
+                            #Target gene: wzc_1 - forward primer: Primer_99_at_42 GACGAAATCGATTTRGGC - reverse primer: Primer_184_at_142 AGGYGTTGAAAGHAGYG
+                                    total number of unique sequences from wzc_1_Primer_99_at_42 forward: 2  -- Primer degeneracy
+                                    total number of unique sequences from wzc_1_Primer_184_at_142 reverse: 12 -- Primer degeneracy
+                                   Total number of unique best hits: 415 -- Total blast hits before filtering by %identity and Query coverage
+                                   Total number of genus: 35 species :44 - strains: 415 -- Total blast hit on the selected genus before filtering by %identity and Query coverage
+                                   ---------
+                                   Total number of unique hits above threshold (% identity >= 99 - % Query_cov >= 99): 413 -- Total blast hits after filtering by %identity and Query coverage, before evaluating if an amplicon can be created
+                                   Total number of genus: 33 - species :42 - strains: 413 -- Total blast hit on the selected genus after filtering by %identity and Query coverage, before evaluating if an amplicon can be created
+                            #                From genus Vibrio: Total amplicons 365 - species 1 - strains 353 -- Total number of amplicons generated from the selected genus
+                            #                    Avg amplicon size 136.4 Max 736 Min 116
+                            #                Total number of unique sequences (100% identity, same size): 15290 -- among all the amplicons generated
+                            #                From genus Vibrio: Total number of strains 100% identifiable: 336 strains from 1 species -- Based on unique amplicons generated from the selected genus
+                            #                    particularly,
+                            #                                cholerae 0 strain
+                            #                                vulnificus 336 strains
+                            #                                parahaemolyticus 0 strain
+                            #                                alginolyticus 0 strain
+                            #                                sp 0 strain
+                            Identifiable Vibrio strains: -- List of strains, based on unique amplicons generated from the selected genus
+                            -------------------------------------
+                            # 100% identifiable amplicons that are not Vibrio: Genus 0 Spp 0 strains 0 -- Based on unique amplicons generated from the other genra
+                            # Number of amplicons that are not Vibrio: Genus 0 Spp 0 strains 0 -- Total number of amplicons generated from the other genra
+                            -------------------------------------
+                
+                     ├── <primer_number>_<primers_pair>_hits -- Intermediare file, -- blast table results for each primers pair evaluated
+                     ├── <primer_number>_<primers_pair>_hits_selected -- Blast table hits above  %identity and Query coverage threshold for each primers pair evaluated
+                └── krona -- Directory containing Krona html files, of amplicon/hits for each primers pair evaluated

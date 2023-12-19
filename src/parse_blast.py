@@ -37,8 +37,6 @@ args = parser.parse_args()
 
 def get_info(line):
     line = line.split()
-   # id=line[1].split("_")[0] #it doesn't work since same strain may
-   # have two different AccNumber because there are two Chromosomes
     id = line[1].split("_")
     id = "_".join(id[2:])
     id = re.sub(".chromosome.*$", "", id, count=1)
@@ -47,6 +45,7 @@ def get_info(line):
     id = re.sub(".DNA.*$", "", id, count=1)
     id = re.sub(".complete.*$", "", id, count=1)
     id = re.sub("sp.", "sp", id, count=1)
+    id = re.sub(".contig.*$", "", id, count=1)
     bitscore = float(line[11])
     identity = float(line[2])
     align_len = float(line[3])
@@ -167,4 +166,3 @@ print(
         args.d, args.l, id_hit_selected))
 print("       Total number of genus: {} - species :{} - strains: {}".format(to_genus,
                                                                             to_spp, genome_counter_slc))
-

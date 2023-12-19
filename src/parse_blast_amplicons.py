@@ -80,6 +80,8 @@ def clean_name(name):
     name = re.sub(".DNA.*$", "", name, count=1)
     name = re.sub(".complete.*$", "", name, count=1)
     name = re.sub("sp.", "sp", name, count=1)
+    name = re.sub(".contig.*$", "", name, count=1) #new
+
     return name
 
 def get_selected_hits(file,seqs):
@@ -91,8 +93,6 @@ def get_selected_hits(file,seqs):
     # Fields: query acc., subject acc., % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
             if not line.startswith("#"):
                 line = line.split()
-               # id=line[1].split("_")[0] #it doesn't work since same strain may
-               # have two different AccNumber because there are two Chromosomes
                 loci = line[1]
                 id = loci.split("_")
                 id = "_".join(id[2:])
@@ -135,7 +135,6 @@ def fwd_revs_info(primer_loc):
     revs = set()
     forws = set()
     for p_inf in primer_loc:
-        #    print(u) ('primer_42_P74_326_forward', '1812666', '1812650')
         if re.search("reverse", p_inf[0]):
             revs.add(p_inf)
         else:
@@ -289,7 +288,6 @@ with open(args.c, "r") as fc, open(args.a, "w") as fam, open(args.k + "_all_ampl
             line = line.rstrip()
             if line.startswith(">"):
                 h = line.split()[0][1:]
-    # print(h) NZ_LS997868.1_Vibrio_cholerae_strain_NCTC_30_chromosome_2
                 if h in selected_hits:
                     header=clean_name(line)
                     header += " [direction +]"

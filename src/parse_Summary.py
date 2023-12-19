@@ -55,7 +55,7 @@ def checking_copy2(lin):
 
 def print_out(h,l,f1,f2, tp):
     if "---" in l:
-        text= "*** full specificity"
+        text= "*** full Genus specificity"
     else:
         text= l[1:]
     print(h, "\n", text, file=f1)
@@ -83,10 +83,10 @@ with open(args.i, "r") as fin, open(args.o, "w") as fout, open(file_list, "w") a
             str="From genus "+args.n.capitalize()+": Total number of strains"
             if str in line:
                 copy=checking_copy1(line)
-            if copy:
-                print(header, "\n", line[1:], file=fout)
-                print(" ".join(toprint), file=flist)
-                copy=False
+                if copy:
+                    print(header, "\n", line[1:], file=fout)
+                    print(" ".join(toprint), file=flist)
+                    copy=False
 
         else:
 

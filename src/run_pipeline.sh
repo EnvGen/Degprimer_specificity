@@ -89,12 +89,12 @@ if [ $(echo "$line" | grep "#" | wc -l) == 0 ] && [ $(echo "$line" | wc -l) != 0
       seqsr=$( echo "$line" | cut -d " " -f5 )
 
       if [ "$1" == "unlock" ]; then
-        snakemake -s support_files/Primers_snakefile --config primer=$id seqf=$seqsf namef=$namef seqr=$seqsr namer=$namer --unlock
+        snakemake -s support_files/Primers.smk --config primer=$id seqf=$seqsf namef=$namef seqr=$seqsr namer=$namer --unlock
       else
 
         echo "INFO: Primer specificity analysis - Target gene: $id - forward primer: $namef $seqsf - reverse primer: $namer $seqsr"
         echo "#Target gene: $id - forward primer: $namef $seqsf - reverse primer: $namer $seqsr" >> $wkd/$output_dir_name/$params_dir/Summary.txt
-        snakemake -s support_files/Primers_snakefile --cores $threads --config primer=$id seqf=$seqsf namef=$namef seqr=$seqsr namer=$namer --quiet >> $wkd/$output_dir_name/$params_dir/Summary.txt
+        snakemake -s support_files/Primers.smk --cores $threads --config primer=$id seqf=$seqsf namef=$namef seqr=$seqsr namer=$namer --quiet >> $wkd/$output_dir_name/$params_dir/Summary.txt
 
       fi
 fi
@@ -102,8 +102,8 @@ done
 
 
 if [ "$1" != "unlock" ]; then
-    echo "Printing out the best primers list: $wkd/$output_dir_name/$params_dir/BEST_primers_list.txt"
+    echo "Printing out the best primers list: $wkd/$output_dir_name/$params_dir/SPECIAL_primers_list.txt"
     if  [ -z "$list_of_excl_genus" ]; then list_of_excl_genus="''"; fi
-    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/BEST_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genus -n $selected_genus -x $list_of_excl_genus
+    python $wkd/src/parse_Summary.py -i $wkd/$output_dir_name/$params_dir/Summary.txt -o $wkd/$output_dir_name/$params_dir/SPECIAL_primers -d $target -s $min_idt_species -t $min_idt_strains -g $max_idt_genus -n $selected_genus -x $list_of_excl_genus
 fi
 rm tempo

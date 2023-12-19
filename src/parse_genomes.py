@@ -26,6 +26,7 @@ def get_hits(file):
                 id = re.sub(".DNA.*$", "", id, count=1)
                 id = re.sub(".complete.*$", "", id, count=1)
                 id = re.sub("sp.", "sp", id, count=1)
+                id = re.sub(".contig.*$", "", id, count=1) #new
                 hits.add(id)
     return hits
 

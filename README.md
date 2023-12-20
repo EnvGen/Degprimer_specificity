@@ -4,7 +4,7 @@ The pipeline evaluates the specificity of degenerated primers -- Designed for ge
 
 Download the pipeline using the command:
 
-        git clone https://github.com/lfdelzam/Degprimer_specificity.git
+        git clone https://github.com/lfdelzam/Degprimer_specificity
 
 The pipeline uses the programs:
 
